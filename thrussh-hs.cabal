@@ -1,0 +1,69 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           thrussh-hs
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/jesseDMoore1994/thrussh-hs#readme>
+homepage:       https://github.com/jesseDMoore1994/thrussh-hs#readme
+bug-reports:    https://github.com/jesseDMoore1994/thrussh-hs/issues
+author:         Jesse Moore
+maintainer:     jesse@jessemoore.dev
+copyright:      lgpl
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/jesseDMoore1994/thrussh-hs
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_thrussh_hs
+  hs-source-dirs:
+      src
+  extra-libraries:
+      thrusshlib
+  build-depends:
+      base >=4.7 && <5
+    , curryrs
+  default-language: Haskell2010
+
+executable thrussh-hs-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_thrussh_hs
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  extra-libraries:
+      thrusshlib
+  build-depends:
+      base >=4.7 && <5
+    , curryrs
+    , thrussh-hs
+  default-language: Haskell2010
+
+test-suite thrussh-hs-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_thrussh_hs
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  extra-libraries:
+      thrusshlib
+  build-depends:
+      base >=4.7 && <5
+    , curryrs
+    , thrussh-hs
+  default-language: Haskell2010
