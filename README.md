@@ -1,11 +1,11 @@
 # thrussh-hs
 
-This is an expermient to see if I can create an SSH Library for Haskell using the a pure rust
+This is an expermient to see if I can create an SSH Library for Haskell using the a pure rust (mostly...)
  implementation of SSH via thrusssh.
 
 ## findings
   * It is possible to have rust and haskell communicate but they both have to
-    talk using the C FFI of the respective lamnguage.
+    talk using the C FFI of the respective language.
   * This approach feels really dumb, but it feels like the best shot that haskell
     has to interop with systems programming going forward. (Lest it be relegated
     to C forever)
@@ -14,7 +14,7 @@ This is an expermient to see if I can create an SSH Library for Haskell using th
     for useful communication.
   * Haskell does NOT make loading libraries easy, and there isn't good documentation
     in case something goes wrong.
-    * Want to load a rust library? Better not have debug symbols ¯\_(ツ)_/¯
+    * Want to load a rust library? Better not have debug symbols ¯\\_(ツ)_/¯
   * Rust hates the FFI which isn't that surprising considering it basically throws
     data ownership out of the window.
   * Haskell also hates the FFI, but due to the fact that side effects abound.

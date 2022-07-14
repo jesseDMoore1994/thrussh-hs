@@ -889,6 +889,7 @@ dependencies = [
  "curryrs",
  "env_logger",
  "futures",
+ "lazy_static",
  "openssl",
  "thrussh",
  "thrussh-keys",

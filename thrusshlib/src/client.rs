@@ -50,7 +50,6 @@ impl Session {
     }
 
     pub async fn call(&mut self, command: &str) -> Result<CommandResult> {
-        println!("In call!");
         let mut channel = self.session.channel_open_session().await?;
         channel.exec(true, command).await?;
         let mut output = Vec::new();
