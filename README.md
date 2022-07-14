@@ -22,7 +22,7 @@ This is an expermient to see if I can create an SSH Library for Haskell using th
 ## takeaways
   * I still think this is possible, just a little bit more than I could chew in one
     sitting.
-  * I am not good a systems programming still, I need to lean into rust.
+  * I am not good at systems programming still, I need to lean into rust to learn more.
   * It's a shame because I'd rather stay in the Ivory tower but I have real work to do.
 
 # How to build
