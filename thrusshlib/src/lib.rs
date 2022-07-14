@@ -1,33 +1,36 @@
-#[macro_use]
-extern crate curryrs;
 extern crate lazy_static;
 
-use curryrs::types::*;
+use libc::c_char;
 use tokio::runtime::Runtime;
 use lazy_static::lazy_static;
+use std::ffi::CStr;
 
 mod client;
-
-#[repr(C)]
-pub struct Data {
-	pub a: bool,
-	pub b: u32,
-	pub c: String
-}
 
 lazy_static! {
 	    static ref RUNTIME: Runtime = Runtime::new().unwrap();
 }
 
+unsafe fn convert_to_r_str<'a>(c: *const c_char) -> &'a str {
+    assert!(!c.is_null());
+    CStr::from_ptr(c).to_str().unwrap()
+}
+
 #[allow(clippy::missing_safety_doc)]
 #[no_mangle]
-pub unsafe extern fn create_session() -> *mut client::Session {
+pub unsafe extern fn create_session(
+    target: *const c_char,
+    username: *const c_char,
+    password: *const c_char,
+) -> *mut client::Session {
 	let res = RUNTIME.block_on(async {
-		  client::Session::connect("127.0.0.1:22", "test", "test").await
+            client::Session::connect(
+                convert_to_r_str(target),
+                convert_to_r_str(username),
+                convert_to_r_str(password),
+            ).await
 	});
-	let b = Box::into_raw(Box::new(res.unwrap()));
-	println!("session: {:p}", b);
-	b
+	Box::into_raw(Box::new(res.unwrap()))
 }
 
 #[allow(clippy::missing_safety_doc)]
@@ -42,37 +45,18 @@ pub unsafe extern fn destroy_session(s: *mut client::Session) {
 
 #[allow(clippy::missing_safety_doc)]
 #[no_mangle]
-pub unsafe extern fn callex(session: *mut client::Session) {
+pub unsafe extern fn callex(
+	session: *mut client::Session,
+    command: *const c_char,
+) {
     let session = {
 		assert!(!session.is_null());
         &mut *session
     };
 	match RUNTIME.block_on(async { 
-		session.call("whoami").await
+		session.call(convert_to_r_str(command)).await
 	}) {
 		Ok(res) => println!("{}", res.output()),
 		Err(e) => println!("{}", e)
 	};
 }
-
-// Place each function you want exported into the safe_ffi! macro and it will
-// export each one and place the pub extern for you!
-safe_ffi! (
-
-	fn hello() -> () {
-		println!("Hello")
-	}
-
-	fn double(x: I32) -> I32 {
-		2 * x
-	}
-
-	fn square(x: U64) -> U64 {
-		x * x
-	}
-
-	fn cube(x: I64) -> I64 {
-		x * x * x
-	}
-
-);

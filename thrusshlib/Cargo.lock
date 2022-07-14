@@ -890,6 +890,7 @@ dependencies = [
  "env_logger",
  "futures",
  "lazy_static",
+ "libc",
  "openssl",
  "thrussh",
  "thrussh-keys",
